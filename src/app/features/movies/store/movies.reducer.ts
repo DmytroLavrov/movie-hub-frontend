@@ -1,10 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
-import { Movie } from 'src/app/core/models/movie.model';
+import { Movie, MovieDetails } from 'src/app/core/models/movie.model';
 import * as MoviesActions from './movies.actions';
 
 export interface MoviesState {
   list: Movie[];
-  selectedMovie: Movie | null;
+  selectedMovie: MovieDetails | null;
   currentPage: number;
   totalPages: number;
   loading: boolean;
@@ -50,5 +50,6 @@ export const moviesReducer = createReducer(
   on(MoviesActions.loadMovieDetailSuccess, (state, { movie }) => ({
     ...state,
     selectedMovie: movie,
+    loading: false,
   })),
 );

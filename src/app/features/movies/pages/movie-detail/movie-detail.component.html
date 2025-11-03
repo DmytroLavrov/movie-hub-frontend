@@ -1,1 +1,34 @@
-<p>movie-detail works!</p>
+@if (loading$ | async) {
+  <div class="loading-spinner">Завантаження деталей...</div>
+} @else {
+  @if (movie$ | async; as movie) {
+    <div class="detail-page-container">
+      <!-- <div
+        class="header-section"
+        [style.background-image]="
+          'url(' + getPosterUrl(movie.backdrop_path || movie.poster_path) + ')'
+        "
+      > -->
+      <div class="header-section">
+        <div class="overlay">
+          <div class="poster">
+            <img [src]="getPosterUrl(movie.poster_path)" [alt]="movie.title" />
+          </div>
+          <div class="info">
+            <h1>{{ movie.title }}</h1>
+            <p class="tagline">{{ movie.tagline }}</p>
+            <div class="meta-info">
+              <span>📅 {{ movie.release_date | date: 'yyyy' }}</span>
+              <span>⭐️ {{ movie.vote_average | number: '1.1-1' }} / 10</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-section">
+        <h2>Огляд</h2>
+        <p>{{ movie.overview || 'Опис відсутній.' }}</p>
+      </div>
+    </div>
+  }
+}

@@ -17,3 +17,7 @@ export const selectMoviesCurrentQuery = createSelector(
   selectMoviesFeature,
   (state) => state.currentQuery,
 );
+export const selectSelectedMovie = createSelector(
+  selectMoviesFeature,
+  (state) => state.selectedMovie,
+);

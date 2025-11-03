@@ -1,1 +1,30 @@
-<p>movie-list works!</p>
+<div class="movie-hub-container">
+  <sh-search-bar (search)="onSearch($event)"></sh-search-bar>
+
+  <h2 class="section-title">
+    {{ (currentQuery$ | async) ? 'Результати пошуку' : 'Популярні фільми' }}
+  </h2>
+
+  @if (loading$ | async) {
+    <div>Loading...</div>
+  } @else {
+    <div class="movies-grid">
+      @if (movies$ | async; as movies) {
+        @for (movie of movies; track movie.id) {
+          <sh-movie-card [movie]="movie" routerLink="/movies/{{ movie.id }}"></sh-movie-card>
+        } @empty {
+          <div class="no-results">Фільми не знайдено. Спробуйте інший пошуковий запит.</div>
+        }
+      }
+    </div>
+  }
+
+  @if ((totalPages$ | async)! > 1) {
+    <sh-pagination
+      [currentPage]="(currentPage$ | async) ?? 1"
+      [totalPages]="(totalPages$ | async) ?? 1"
+      (pageChange)="onPageChange($event)"
+    >
+    </sh-pagination>
+  }
+</div>

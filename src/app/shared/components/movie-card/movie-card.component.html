@@ -1,1 +1,12 @@
-<p>movie-card works!</p>
+<div class="movie-card">
+  <img [src]="posterUrl" alt="{{ movie.title }}" />
+  <div class="info">
+    <h3>{{ movie.title }}</h3>
+    <p class="meta">{{ movie.release_date }} • {{ movie.vote_average }}</p>
+    <p class="overview">{{ movie.overview }}</p>
+    <!-- <button (click)="toggleFavorite.emit(movie)">
+      {{ isFavorite ? 'Remove' : 'Add to favorites' }}
+    </button>
+    <a [routerLink]="['/movies', movie.id]">Details</a> -->
+  </div>
+</div>

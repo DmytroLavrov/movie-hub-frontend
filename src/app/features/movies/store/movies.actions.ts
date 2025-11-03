@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Movie } from 'src/app/core/models/movie.model';
+import { Movie, MovieDetails } from 'src/app/core/models/movie.model';
 
 export const loadPopularMovies = createAction(
   '[Movies] Load Popular Movies',
@@ -20,7 +20,7 @@ export const loadMovieDetail = createAction('[Movies] Load Movie Detail', props<
 
 export const loadMovieDetailSuccess = createAction(
   '[Movies] Load Movie Detail Success',
-  props<{ movie: Movie }>(),
+  props<{ movie: MovieDetails }>(),
 );
 
 export const loadMovieDetailFailure = createAction(

@@ -10,7 +10,7 @@ export class MoviesEffects {
   private actions$ = inject(Actions);
   constructor(private movieApiService: MovieApiService) {}
 
-  public loadPopular$ = createEffect(() =>
+  public loadPopularMovies$ = createEffect(() =>
     this.actions$.pipe(
       ofType(MoviesActions.loadPopularMovies),
       switchMap(({ query, page }) => {
@@ -33,7 +33,7 @@ export class MoviesEffects {
     ),
   );
 
-  public loadDetail$ = createEffect(() =>
+  public loadMovieDetail$ = createEffect(() =>
     this.actions$.pipe(
       ofType(MoviesActions.loadMovieDetail),
       switchMap(({ id }) =>
