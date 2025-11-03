@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Movie } from 'src/app/core/models/movie.model';
 
 @Component({
@@ -10,10 +10,16 @@ import { Movie } from 'src/app/core/models/movie.model';
 })
 export class MovieCardComponent {
   @Input() movie!: Movie;
+  @Input() isFavorite: boolean = false;
+  @Output() toggleFavorite = new EventEmitter<number>();
 
   public get posterUrl(): string {
     return this.movie.poster_path
       ? `https://image.tmdb.org/t/p/w342${this.movie.poster_path}`
       : 'https://davidkoepp.com/wp-content/themes/blankslate/images/Movie%20Placeholder.jpg';
+  }
+
+  public onToggleFavorite(): void {
+    this.toggleFavorite.emit(this.movie.id);
   }
 }

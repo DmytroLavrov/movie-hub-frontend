@@ -1,1 +1,25 @@
-<p>favorites-list works!</p>
+<div class="favorites-page-container">
+  <h2>💖 Мої Улюблені Фільми</h2>
+
+  @if (!(favoriteMovies$ | async)?.length) {
+    <div class="empty-list-message">
+      <p>Ваш список улюблених фільмів порожній.</p>
+      <a routerLink="/movies">Перейти до каталогу фільмів</a>
+    </div>
+  }
+
+  @if (favoriteMovies$ | async; as movies) {
+    <div class="movie-grid">
+      @if (favoriteIds$ | async; as favoriteIds) {
+        @for (movie of movies; track movie.id) {
+          <sh-movie-card
+            [movie]="movie"
+            [isFavorite]="true"
+            (toggleFavorite)="onRemoveFavorite(movie.id)"
+          >
+          </sh-movie-card>
+        }
+      }
+    </div>
+  }
+</div>
