@@ -3,12 +3,19 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { StoreModule } from '@ngrx/store';
+import { Action, ActionReducer, MetaReducer, StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { CoreModule } from './core/core.module';
 import { provideHttpClient } from '@angular/common/http';
-import { appReducer } from './store/app.state';
+import { appReducer, AppState } from './store/app.state';
+import { localStorageSync } from 'ngrx-store-localstorage';
+
+export function localStorageSyncReducer(reducer: ActionReducer<AppState>): ActionReducer<AppState> {
+  return localStorageSync({ keys: ['favorites'], rehydrate: true })(reducer);
+}
+
+export const metaReducers: MetaReducer<AppState, Action>[] = [localStorageSyncReducer];
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,7 +23,7 @@ import { appReducer } from './store/app.state';
     BrowserModule,
     AppRoutingModule,
     CoreModule,
-    StoreModule.forRoot(appReducer),
+    StoreModule.forRoot(appReducer, { metaReducers }),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
