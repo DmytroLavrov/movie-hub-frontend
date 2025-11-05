@@ -1,11 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { filter, map, Observable, take } from 'rxjs';
+import { filter, map, Observable, Subject, take, takeUntil } from 'rxjs';
 import { Movie } from 'src/app/core/models/movie.model';
 import * as MoviesActions from '../../store/movies.actions';
 import * as MoviesSelectors from '../../store/movies.selectors';
 import * as FavoritesActions from '../../../favorites/store/favorites.actions';
 import * as FavoritesSelectors from '../../../favorites/store/favorites.selectors';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-movie-list',
@@ -14,7 +15,7 @@ import * as FavoritesSelectors from '../../../favorites/store/favorites.selector
   styleUrl: './movie-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MovieListComponent implements OnInit {
+export class MovieListComponent implements OnInit, OnDestroy {
   public movies$!: Observable<Movie[]>;
   public loading$!: Observable<boolean>;
   public currentPage$!: Observable<number>;
@@ -22,7 +23,13 @@ export class MovieListComponent implements OnInit {
   public currentQuery$!: Observable<string>;
   public favoriteIds$: Observable<number[]>;
 
-  constructor(private store: Store) {
+  private destroy$ = new Subject<void>();
+
+  constructor(
+    private store: Store,
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {
     this.movies$ = this.store.select(MoviesSelectors.selectMovieList);
     this.loading$ = this.store.select(MoviesSelectors.selectMoviesLoading);
     this.currentPage$ = this.store.select(MoviesSelectors.selectMoviesCurrentPage);
@@ -32,18 +39,40 @@ export class MovieListComponent implements OnInit {
     this.favoriteIds$ = this.store.select(FavoritesSelectors.selectFavoriteIds);
   }
 
-  ngOnInit() {
-    this.store.dispatch(MoviesActions.loadPopularMovies({ query: '', page: 1 }));
-  }
+  ngOnInit(): void {
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params) => {
+      const query = params['query'] || '';
+      const page = Number(params['page']) || 1;
 
-  public onPageChange(page: number): void {
-    this.currentQuery$.pipe(take(1)).subscribe((query) => {
       this.store.dispatch(MoviesActions.loadPopularMovies({ query, page }));
     });
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  public onPageChange(page: number): void {
+    this.currentQuery$.pipe(take(1)).subscribe((query) => {
+      this.updateUrl(query, page);
+    });
+  }
+
   public onSearch(query: string): void {
-    this.store.dispatch(MoviesActions.loadPopularMovies({ query, page: 1 }));
+    this.updateUrl(query, 1);
+  }
+
+  private updateUrl(query: string, page: number): void {
+    const queryParams: { query?: string; page: number } = { page: page };
+    if (query) {
+      queryParams['query'] = query;
+    }
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams,
+    });
   }
 
   public onToggleFavorite(movieId: number, isCurrentlyFavorite: boolean) {

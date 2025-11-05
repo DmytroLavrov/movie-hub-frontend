@@ -2,11 +2,13 @@
   <sh-search-bar (search)="onSearch($event)"></sh-search-bar>
 
   <h2 class="section-title">
-    {{ (currentQuery$ | async) ? 'Результати пошуку' : 'Популярні фільми' }}
+    {{ (currentQuery$ | async) ? 'Search results' : 'Popular movies' }}
   </h2>
 
   @if (loading$ | async) {
-    <div>Loading...</div>
+    <div class="loading-container">
+      <mat-spinner diameter="100"></mat-spinner>
+    </div>
   } @else {
     @if (favoriteIds$ | async; as favoriteIds) {
       <div class="movies-grid">
@@ -18,19 +20,18 @@
               (toggleFavorite)="onToggleFavorite(movie.id, isMovieFavorite(movie.id, favoriteIds))"
             ></sh-movie-card>
           } @empty {
-            <div class="no-results">Фільми не знайдено. Спробуйте інший пошуковий запит.</div>
+            <div class="no-results">No movies found. Try a different search query.</div>
           }
         }
       </div>
     }
-  }
-
-  @if ((totalPages$ | async)! > 1) {
-    <sh-pagination
-      [currentPage]="(currentPage$ | async) ?? 1"
-      [totalPages]="(totalPages$ | async) ?? 1"
-      (pageChange)="onPageChange($event)"
-    >
-    </sh-pagination>
+    @if ((totalPages$ | async)! > 1) {
+      <sh-pagination
+        [currentPage]="(currentPage$ | async) ?? 1"
+        [totalPages]="(totalPages$ | async) ?? 1"
+        (pageChange)="onPageChange($event)"
+      >
+      </sh-pagination>
+    }
   }
 </div>

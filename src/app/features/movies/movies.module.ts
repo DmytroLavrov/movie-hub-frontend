@@ -11,6 +11,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { MoviesEffects } from './store/movies.effects';
 import { moviesReducer } from './store/movies.reducer';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [MoviesComponent, MovieListComponent, MovieDetailComponent],
@@ -21,6 +22,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     EffectsModule.forFeature([MoviesEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     SharedModule,
+    MatProgressSpinnerModule,
   ],
 })
 export class MoviesModule {}

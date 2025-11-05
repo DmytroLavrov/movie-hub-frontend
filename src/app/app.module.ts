@@ -10,6 +10,7 @@ import { CoreModule } from './core/core.module';
 import { provideHttpClient } from '@angular/common/http';
 import { appReducer, AppState } from './store/app.state';
 import { localStorageSync } from 'ngrx-store-localstorage';
+import { MatIconModule } from '@angular/material/icon';
 
 export function localStorageSyncReducer(reducer: ActionReducer<AppState>): ActionReducer<AppState> {
   return localStorageSync({ keys: ['favorites'], rehydrate: true })(reducer);
@@ -26,6 +27,7 @@ export const metaReducers: MetaReducer<AppState, Action>[] = [localStorageSyncRe
     StoreModule.forRoot(appReducer, { metaReducers }),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    MatIconModule,
   ],
   providers: [provideBrowserGlobalErrorListeners(), provideHttpClient()],
   bootstrap: [AppComponent],

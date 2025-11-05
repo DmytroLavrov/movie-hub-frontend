@@ -47,9 +47,23 @@ export const moviesReducer = createReducer(
     error,
   })),
 
+  on(MoviesActions.loadMovieDetail, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+    selectedMovie: null,
+  })),
+
   on(MoviesActions.loadMovieDetailSuccess, (state, { movie }) => ({
     ...state,
     selectedMovie: movie,
     loading: false,
+  })),
+
+  on(MoviesActions.loadMovieDetailFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+    selectedMovie: null,
   })),
 );

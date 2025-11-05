@@ -1,5 +1,7 @@
 @if (loading$ | async) {
-  <div class="loading-spinner">Завантаження деталей...</div>
+  <div class="loading-container">
+    <mat-spinner diameter="100"></mat-spinner>
+  </div>
 } @else {
   @if (movie$ | async; as movie) {
     <div class="detail-page-container">
@@ -26,8 +28,8 @@
       </div>
 
       <div class="content-section">
-        <h2>Огляд</h2>
-        <p>{{ movie.overview || 'Опис відсутній.' }}</p>
+        <h2>Overview</h2>
+        <p>{{ movie.overview || 'Description missing.' }}</p>
       </div>
     </div>
   }

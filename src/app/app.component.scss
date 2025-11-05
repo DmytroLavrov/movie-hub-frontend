@@ -1,0 +1,62 @@
+@use '../styles.scss' as *;
+
+.header {
+  background-color: $background-light;
+  padding: 0 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo a {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: $primary-color;
+  letter-spacing: 1px;
+}
+
+.navbar {
+  a {
+    margin: 0 15px;
+    font-size: 1.1em;
+    padding: 10px 0;
+    transition:
+      color 0.3s,
+      border-bottom 0.3s;
+
+    &.active {
+      color: $primary-color;
+      border-bottom: 2px solid $primary-color;
+    }
+  }
+}
+
+.search-icon-container {
+  width: 24px;
+  height: 24px;
+}
+
+.search-icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: $text-light;
+
+  .search-icon {
+    font-size: 24px;
+    transition: color 0.2s;
+  }
+
+  &:hover .search-icon {
+    color: $primary-color;
+  }
+}
+
+.main {
+  min-height: calc(100vh - 60px);
+}

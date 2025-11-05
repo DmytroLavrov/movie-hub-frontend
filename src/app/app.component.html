@@ -1,8 +1,22 @@
-<nav class="navbar">
-  <a routerLink="/movies" routerLinkActive="active">Movies</a>
-  <a routerLink="/favorites" routerLinkActive="active">Favorites</a>
-</nav>
+<header class="header">
+  <div class="logo">
+    <a routerLink="/movies">MovieHub </a>
+  </div>
 
-<main>
+  <nav class="navbar">
+    <a routerLink="/movies" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+      >Movies</a
+    >
+    <a routerLink="/favorites" routerLinkActive="active">Favorites</a>
+  </nav>
+
+  <div class="search-icon-container">
+    <button class="search-icon-btn" (click)="goToSearchPage()">
+      <mat-icon class="search-icon">search</mat-icon>
+    </button>
+  </div>
+</header>
+
+<main class="main">
   <router-outlet></router-outlet>
 </main>
