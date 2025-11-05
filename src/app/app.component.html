@@ -3,16 +3,24 @@
     <a routerLink="/movies">MovieHub </a>
   </div>
 
-  <nav class="navbar">
+  <nav class="navbar" [class.open]="isMenuOpen$ | async">
     <a routerLink="/movies" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
       >Movies</a
     >
     <a routerLink="/favorites" routerLinkActive="active">Favorites</a>
   </nav>
 
-  <div class="search-icon-container">
-    <button class="search-icon-btn" (click)="goToSearchPage()">
-      <mat-icon class="search-icon">search</mat-icon>
+  <div class="right-controls">
+    <div class="search-icon-container">
+      <button class="search-icon-btn" (click)="goToSearchPage()">
+        <mat-icon class="search-icon">search</mat-icon>
+      </button>
+    </div>
+
+    <button class="hamburger-btn" [class.open]="isMenuOpen$ | async" (click)="toggleMenu()">
+      <span class="line"></span>
+      <span class="line"></span>
+      <span class="line"></span>
     </button>
   </div>
 </header>

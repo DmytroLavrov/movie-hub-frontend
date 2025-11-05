@@ -30,8 +30,10 @@ a {
   }
 }
 
-mat-spinner {
-  stroke: $primary-color;
+body.no-scroll {
+  overflow: hidden !important;
+  position: fixed;
+  width: 100%;
 }
 
 .movie-hub-container,
@@ -88,4 +90,8 @@ mat-spinner {
     color: $primary-color;
     font-weight: bold;
   }
+}
+
+mat-spinner {
+  stroke: $primary-color;
 }
