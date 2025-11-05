@@ -116,3 +116,66 @@
   color: $text-light;
   font-size: 1.2em;
 }
+
+@media (max-width: 768px) {
+  .header-section {
+    height: auto;
+    min-height: 450px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    .overlay {
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
+      justify-content: center;
+    }
+  }
+
+  .poster {
+    margin-right: 0;
+    margin-bottom: 20px;
+
+    img {
+      width: 150px;
+      height: 225px;
+    }
+  }
+
+  .info {
+    text-align: center;
+
+    h1 {
+      font-size: 2em;
+    }
+
+    .tagline {
+      font-size: 1em;
+    }
+
+    .meta-info {
+      font-size: 1em;
+      span {
+        display: block;
+        margin: 5px 0;
+      }
+    }
+
+    .favorite-btn {
+      margin-top: 15px;
+      font-size: 1em;
+    }
+  }
+
+  .content-section {
+    padding: 20px;
+
+    h2 {
+      font-size: 1.5em;
+    }
+
+    p {
+      font-size: 1em;
+    }
+  }
+}
