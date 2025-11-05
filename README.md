@@ -1,59 +1,112 @@
-# MovieHub
+# 🎬 MovieHub: Movie Catalog (Frontend)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.5.
+## 🌟 Project Overview
 
-## Development server
+**MovieHub** is a modern Single Page Application (SPA) designed for browsing and searching for movie information. The application is built with **Angular** for the frontend and manages its state using **NgRx**, ensuring a fast and reactive user experience. Movie data is sourced from a dedicated backend service.
 
-To start a local development server, run:
+## 🚀 Live Demo
+
+Check out the live demo of the application here: [**MovieHub - Frontend**](https://movie-hub-frontend-alpha.vercel.app/)
+
+## ✨ Key Features
+
+- **Popular Movies:** View an up-to-date list of trending and popular films.
+- **Search:** Instant movie search by title, utilizing _debounce_ for optimized request handling.
+- **Movie Details:** Access comprehensive information about any selected film.
+- **Favorites:** Add and remove movies from a personalized favorites list, with persistence handled by **LocalStorage** (via NgRx).
+- **Pagination:** User-friendly navigation across large result sets.
+- **Responsive Design:** Clean, modern interface optimized for both mobile and desktop.
+
+---
+
+## 🛠️ Technology Stack
+
+| Category               | Technology                | Purpose                                                                                            |
+| :--------------------- | :------------------------ | :------------------------------------------------------------------------------------------------- |
+| **Frontend Framework** | **Angular** (v17+)        | Core framework for building the application interface.                                             |
+| **State Management**   | **NgRx** (Store, Effects) | Centralized state management using a Redux-like pattern.                                           |
+| **Styling**            | **SCSS**                  | CSS preprocessor for clean and modular styling.                                                    |
+| **Routing**            | **Angular Router**        | Navigation within the SPA, including Lazy Loading for modules (`MoviesModule`, `FavoritesModule`). |
+| **HTTP Client**        | `HttpClient`              | Handling API requests to the backend service.                                                      |
+| **Deployment**         | **Vercel**                | Production hosting for the frontend application.                                                   |
+
+---
+
+## 📦 Installation and Setup
+
+### 1\. Clone the Repository
+
+```bash
+git clone https://github.com/YOUR_USERNAME/movie-hub-frontend.git
+cd movie-hub-frontend
+```
+
+### 2\. Install Dependencies
+
+```bash
+npm install
+# or
+yarn install
+```
+
+### 3\. API URL Configuration
+
+The project uses separate configuration files for development and production environments. This is crucial for correctly linking the frontend to your local and live backends.
+
+1.  **For Local Development (`environment.ts`):**
+
+    Ensure your local backend is running (typically on `localhost:3000`) and set the `baseUrl` accordingly:
+
+    ```typescript
+    // src/environments/environment.ts
+    export const environment = {
+      production: false,
+      baseUrl: 'http://localhost:3000/api', // 👈 Your local backend address
+    };
+    ```
+
+2.  **For Production Build (`environment.prod.ts`):**
+
+    Set the address of your live backend (deployed on Vercel or other hosting):
+
+    ```typescript
+    // src/environments/environment.prod.ts
+    export const environment = {
+      production: true,
+      baseUrl: 'https://movie-hub-backend-ruddy.vercel.app/api', // 👈 Your live backend deployment address
+    };
+    ```
+
+### 4\. Local Run
+
+Start the application in development mode:
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+The application will be accessible at: `http://localhost:4200/`
 
-## Code scaffolding
+### 5\. Production Build
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+To create an optimized production build (used by Vercel for deployment):
 
 ```bash
-ng generate --help
+ng build --configuration production
 ```
 
-## Building
+The generated files will be located in the `dist/` directory.
 
-To build the project run:
+---
 
-```bash
-ng build
-```
+## 🗺️ Module Structure
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+The application is structured around key feature modules:
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- `core/`: Services (e.g., `MovieApiService`), models, and CoreModule.
+- `features/movies/`: Handles displaying lists, search, and movie details.
+  - **NgRx:** Actions, Reducers, Effects for movie state management.
+- `features/favorites/`: Logic for the user's favorite movies list.
+  - **NgRx:** Reducers for managing the favorite movie IDs.
+- `shared/`: Reusable UI components (`MovieCardComponent`, `PaginationComponent`, `SearchBarComponent`).
+- `environments/`: Environment-specific configuration.
