@@ -5,13 +5,12 @@
 } @else {
   @if (movie$ | async; as movie) {
     <div class="detail-page-container">
-      <!-- <div
+      <div
         class="header-section"
         [style.background-image]="
           'url(' + getPosterUrl(movie.backdrop_path || movie.poster_path) + ')'
         "
-      > -->
-      <div class="header-section">
+      >
         <div class="overlay">
           <div class="poster">
             <img [src]="getPosterUrl(movie.poster_path)" [alt]="movie.title" />
@@ -22,7 +21,20 @@
             <div class="meta-info">
               <span>📅 {{ movie.release_date | date: 'yyyy' }}</span>
               <span>⭐️ {{ movie.vote_average | number: '1.1-1' }} / 10</span>
+
+              @if (movie.runtime) {
+                <span>⏱ {{ movie.runtime }} min</span>
+              }
             </div>
+
+            @if (movie.genres.length) {
+              <div class="genres-container">
+                <span class="label">Genres:</span>
+                @for (genre of movie.genres; track genre.id) {
+                  <span class="genre-tag">{{ genre.name }}</span>
+                }
+              </div>
+            }
           </div>
         </div>
       </div>
@@ -30,6 +42,19 @@
       <div class="content-section">
         <h2>Overview</h2>
         <p>{{ movie.overview || 'Description missing.' }}</p>
+
+        @if (movie.homepage) {
+          <div class="homepage-link-container">
+            <a
+              [href]="movie.homepage"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="homepage-link"
+            >
+              Official film website
+            </a>
+          </div>
+        }
       </div>
     </div>
   }
