@@ -2,6 +2,8 @@ import { createReducer, on } from '@ngrx/store';
 import { Movie, MovieDetails } from 'src/app/core/models/movie.model';
 import * as MoviesActions from './movies.actions';
 
+const MAX_PAGES_LIMIT = 500;
+
 export interface MoviesState {
   list: Movie[];
   selectedMovie: MovieDetails | null;
@@ -36,7 +38,7 @@ export const moviesReducer = createReducer(
   on(MoviesActions.loadPopularMoviesSuccess, (state, { movies, totalPages, currentPage }) => ({
     ...state,
     list: movies, // Replace the list
-    totalPages,
+    totalPages: Math.min(totalPages, MAX_PAGES_LIMIT),
     currentPage,
     loading: false,
   })),
