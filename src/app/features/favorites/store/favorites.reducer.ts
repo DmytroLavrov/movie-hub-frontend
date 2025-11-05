@@ -1,28 +1,30 @@
 import { createReducer, on } from '@ngrx/store';
 import { addFavorite } from './favorites.actions';
 import * as FavoritesActions from './favorites.actions';
+import { Movie } from 'src/app/core/models/movie.model';
 
 export interface FavoritesState {
-  ids: number[]; // Array of favorite movie IDs
+  movies: Movie[]; // Store complete movie objects
 }
 
 export const initialFavoritesState: FavoritesState = {
-  ids: [],
+  movies: [],
 };
 
 export const favoritesReducer = createReducer(
   initialFavoritesState,
 
-  on(FavoritesActions.addFavorite, (state, { id }) => {
-    if (state.ids.includes(id)) return state;
+  on(FavoritesActions.addFavorite, (state, { movie }) => {
+    if (state.movies.some((m) => m.id === movie.id)) return state;
+
     return {
       ...state,
-      ids: [...state.ids, id],
+      movies: [...state.movies, movie],
     };
   }),
 
   on(FavoritesActions.removeFavorite, (state, { id }) => ({
     ...state,
-    ids: state.ids.filter((movieId) => movieId !== id),
+    movies: state.movies.filter((movie) => movie.id !== id),
   })),
 );

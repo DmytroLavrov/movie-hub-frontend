@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, take } from 'rxjs';
+import { filter, map, Observable, take } from 'rxjs';
 import { Movie } from 'src/app/core/models/movie.model';
 import * as MoviesActions from '../../store/movies.actions';
 import * as MoviesSelectors from '../../store/movies.selectors';
@@ -50,7 +50,15 @@ export class MovieListComponent implements OnInit {
     if (isCurrentlyFavorite) {
       this.store.dispatch(FavoritesActions.removeFavorite({ id: movieId }));
     } else {
-      this.store.dispatch(FavoritesActions.addFavorite({ id: movieId }));
+      this.movies$
+        .pipe(
+          take(1),
+          map((movies) => movies.find((m) => m.id === movieId)),
+          filter((movie): movie is Movie => !!movie), // Check for existence
+        )
+        .subscribe((movie) => {
+          this.store.dispatch(FavoritesActions.addFavorite({ movie }));
+        });
     }
   }
 
